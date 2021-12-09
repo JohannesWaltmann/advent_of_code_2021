@@ -57,5 +57,49 @@ def task_01_bingo(boards, draws):
             num_board += 1
 
 
+def task_02_bingo(boards, draws):
+    """
+    Computes a bingo on one of the given boards based on a given series of drawn numbers.
+
+    :param boards: Three dim np-array containing a set of bingo boards.
+    :param draws: Np-array with the set of drawn numbers.
+
+    :returns: The sum of all non-marked numbers on the winning board multiplied by the winning number.
+    """
+    single_boards = np.array(np.split(boards, len(boards) / 5))
+    bool_mask = np.zeros_like(single_boards, dtype=bool)
+
+    last_draw, last_board = -1, np.zeros((5, 5))
+    last_marked = np.zeros_like(last_board, dtype=bool)
+
+    for draw in draws:
+        # Take every drawn number
+        bool_mask[single_boards == int(draw)] = True
+
+        num_board = 0
+
+        for masked_board in bool_mask:
+            # Flip the bool mask of each board to true if a drawn number is matched
+            row_bingo = np.all(masked_board, axis=1)
+            col_bingo = np.all(masked_board, axis=0)
+            row_solved = np.any(row_bingo, axis=0)
+            col_solved = np.any(col_bingo, axis=0)
+
+            if row_solved or col_solved:
+                # Compute the boardsum if a row or col is fully true
+                last_board = np.copy(single_boards[num_board])
+                last_draw = draw
+                last_marked = np.copy(masked_board)
+                single_boards[num_board] = None
+                bool_mask[num_board] = None
+            num_board += 1
+
+    last_board[last_marked == True] = 0
+    return int(np.sum(last_board) * int(last_draw))
+
+
 print(f"Task 01 test output: {task_01_bingo(test_boards, test_draw)}")
 print(f"Task 01 validation output: {task_01_bingo(val_boards, val_draw)}")
+
+print(f"Task 02 test output: {task_02_bingo(test_boards, test_draw)}")
+print(f"Task 02 validation output: {task_02_bingo(val_boards, val_draw)}")
