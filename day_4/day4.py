@@ -18,6 +18,13 @@ def bingo(boards, draws):
     bool_mask = np.zeros_like(boards, dtype=bool)
 
     for draw in draws:
-        for i in range(boards[0]):
+        #for i in range(boards[0]):
+        boards[bool_mask == int(draw)] = True
+
+        num_board = 0
+        for masked_board in bool_mask:
+            horizontal_bingo =
+            vertical_bingo =
+
 
 
