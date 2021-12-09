@@ -22,9 +22,6 @@ test_boards = np.loadtxt('resources/test_input', skiprows=2)
 val_boards = np.loadtxt('resources/val_input', skiprows=2)
 
 
-# print(test_draw)
-
-
 def task_01_bingo(boards, draws):
     """
     Computes a bingo on one of the given boards based on a given series of drawn numbers.
@@ -64,11 +61,12 @@ def task_02_bingo(boards, draws):
     :param boards: Three dim np-array containing a set of bingo boards.
     :param draws: Np-array with the set of drawn numbers.
 
-    :returns: The sum of all non-marked numbers on the winning board multiplied by the winning number.
+    :returns: The sum of all non-marked numbers on the last winning board multiplied by its winning number.
     """
     single_boards = np.array(np.split(boards, len(boards) / 5))
     bool_mask = np.zeros_like(single_boards, dtype=bool)
 
+    # Extra variables to keep track of the current last winner
     last_draw, last_board = -1, np.zeros((5, 5))
     last_marked = np.zeros_like(last_board, dtype=bool)
 
@@ -86,7 +84,7 @@ def task_02_bingo(boards, draws):
             col_solved = np.any(col_bingo, axis=0)
 
             if row_solved or col_solved:
-                # Compute the boardsum if a row or col is fully true
+                # Set the current winning board as last winning board
                 last_board = np.copy(single_boards[num_board])
                 last_draw = draw
                 last_marked = np.copy(masked_board)
@@ -94,6 +92,7 @@ def task_02_bingo(boards, draws):
                 bool_mask[num_board] = None
             num_board += 1
 
+    # Compute the board sum of the last winning board
     last_board[last_marked == True] = 0
     return int(np.sum(last_board) * int(last_draw))
 
