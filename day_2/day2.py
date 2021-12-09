@@ -1,5 +1,5 @@
-test_input = [str(x).strip() for x in open('ressources/test_input').readlines()]
-val_input = [str(x).strip() for x in open('ressources/val_input').readlines()]
+test_input = [str(x).strip() for x in open('resources/test_input').readlines()]
+val_input = [str(x).strip() for x in open('resources/val_input').readlines()]
 
 
 def calc_position(input_data):

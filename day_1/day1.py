@@ -28,13 +28,13 @@ def count_measurements_windowed(set_name) -> int:
 
 
 """ Test implementation """
-task_01_test = count_measurements('ressources/test_data')
-task_02_test = count_measurements_windowed('ressources/test_data')
+task_01_test = count_measurements('resources/test_data')
+task_02_test = count_measurements_windowed('resources/test_data')
 
 print(f'Task 01 test: {task_01_test}\nTask 02 test: {task_02_test}')
 
 """ Solution Output """
-task_01_output = count_measurements('ressources/val_data')
-task_02_output = count_measurements_windowed('ressources/val_data')
+task_01_output = count_measurements('resources/val_data')
+task_02_output = count_measurements_windowed('resources/val_data')
 
 print(f'Task 01 output: {task_01_output}\nTask 02 output: {task_02_output}')

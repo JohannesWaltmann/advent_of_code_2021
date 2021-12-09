@@ -1,12 +1,12 @@
 import numpy as np
 
 # Load draws
-test_draw = np.loadtxt('ressources/test_input', dtype=str, max_rows=1, delimiter=',')
-val_draw = np.loadtxt('ressources/val_input', dtype=str, max_rows=1, delimiter=',')
+test_draw = np.loadtxt('resources/test_input', dtype=str, max_rows=1, delimiter=',')
+val_draw = np.loadtxt('resources/val_input', dtype=str, max_rows=1, delimiter=',')
 
 # Load boards
-test_boards = np.loadtxt('ressources/test_input', dtype=str, skiprows=2)
-val_boards = np.loadtxt('ressources/val_input', dtype=str, skiprows=2)
+test_boards = np.loadtxt('resources/test_input', dtype=str, skiprows=2)
+val_boards = np.loadtxt('resources/val_input', dtype=str, skiprows=2)
 
 # Reshape Boards
 test_boards = test_boards.reshape(test_boards.shape[0] // test_boards.shape[1], 5, 5)

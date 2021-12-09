@@ -1,5 +1,5 @@
-test_data = [str(x).strip() for x in open('ressources/test_data', 'r').readlines()]
-val_data = [str(x).strip() for x in open('ressources/val_data', 'r').readlines()]
+test_data = [str(x).strip() for x in open('resources/test_data', 'r').readlines()]
+val_data = [str(x).strip() for x in open('resources/val_data', 'r').readlines()]
 
 
 def get_gamma_rate(data) -> str:
