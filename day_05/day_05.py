@@ -13,9 +13,35 @@
 
 import numpy as np
 
-test_coordinates = [str(x).strip().split('->') for x in open('resources/test_coordinates', 'r').readlines()]
-val_coordinates = [str(x).strip().split('->') for x in open('resources/val_coordinates', 'r').readlines()]
+test_coordinates = np.array([[[int(z) for z in y.split(",")] for y in x.split(" -> ")]
+                             for x in open('resources/test_coordinates', 'r').readlines()], dtype=int)
+val_coordinates = np.array([[[int(z) for z in y.split(",")] for y in x.split(" -> ")]
+                            for x in open('resources/val_coordinates', 'r').readlines()], dtype=int)
+vent_grid = np.zeros((999, 999))
 
-print(test_coordinates)
 
+def find_overlaps(coordinates, grid):
+    for pair in coordinates:
+        x1, y1, x2, y2 = pair[0][0], pair[0][1], pair[1][0], pair[1][1]
 
+        if x1 == x2:
+            if y1 < y2:
+                move = 1
+            else:
+                move = -1
+            for increment in range(y1, y2 + move, move):
+                grid[x1, increment] += 1
+        elif y1 == y2:
+            if x1 < x2:
+                move = 1
+            else:
+                move = -1
+            for increment in range(x1, x2 + move, move):
+                grid[increment, y1] += 1
+
+    return np.sum(np.where(grid > 1, 1, 0))
+
+# TODO: Check why val output has offset of 5
+# TODO: Work on task 2
+print(find_overlaps(test_coordinates, vent_grid))
+print(find_overlaps(val_coordinates, vent_grid))
