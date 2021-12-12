@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 
-def count_paths(source_path: str) -> int:
+def count_paths_small_once(source_path: str) -> int:
     """
     Counts the different possible paths through a cave system.
     Each valid path has to contain a start and an end point.
@@ -13,7 +13,6 @@ def count_paths(source_path: str) -> int:
     """
     # Create dictionary
     connections = defaultdict(list)
-
     for line in open(source_path, 'r'):
         # Write combinations of entry end destination point per path to the dictionary
         entry, destination = line.strip().split('-')
@@ -41,6 +40,38 @@ def count_paths(source_path: str) -> int:
     return valid_paths
 
 
-print('Solution for first test task 01: ', count_paths('resources/test_1'))
-print('Solution for second test task 01: ', count_paths('resources/test_2'))
-print('Solution for validation task 01: ', count_paths('resources/val'))
+def count_paths_one_small_double(source_path: str) -> int:
+
+    # Create dictionary and fill with cave connections
+    connections = defaultdict(list)
+    for line in open(source_path, 'r'):
+        entry, destination = line.strip().split('-')
+        connections[entry].append(destination)
+        connections[destination].append(entry)
+
+    valid_paths = 0
+    _next = [['start']]
+
+    while _next:
+        current_path = _next.pop(0)
+
+        for coming in connections[current_path[-1]]:
+            if coming == 'end':
+                valid_paths += 1
+            elif not coming.islower() or current_path.count(coming) < 2:
+                _next.append(current_path + [coming])
+
+    return valid_paths
+
+
+# Output for task 01
+print('Solution for first test task 01: ', count_paths_small_once('resources/test_1'))
+print('Solution for second test task 01: ', count_paths_small_once('resources/test_2'))
+print('Solution for validation task 01: ', count_paths_small_once('resources/val'))
+
+print('-------------------------------')
+
+# Output for task 02
+print('Solution for first test task 02: ', count_paths_one_small_double('resources/test_3'))
+print('Solution for second test task 02: ', count_paths_one_small_double('resources/test_2'))
+print('Solution for validation task 02: ', count_paths_one_small_double('resources/val'))
