@@ -2,6 +2,15 @@ from collections import defaultdict
 
 
 def count_paths(source_path: str) -> int:
+    """
+    Counts the different possible paths through a cave system.
+    Each valid path has to contain a start and an end point.
+    A path may contain multiple entries of the came capital cave but only one instance
+    per minor cave.
+
+    :param source_path: File path to the routing info of a cave system.
+    :returns: The sum of counted valid paths. Each path increments the sum by 1.
+    """
     # Create dictionary
     connections = defaultdict(list)
 
@@ -32,6 +41,6 @@ def count_paths(source_path: str) -> int:
     return valid_paths
 
 
-print(count_paths('resources/test_1'))
-print(count_paths('resources/test_2'))
-print(count_paths('resources/val'))
+print('Solution for first test task 01: ', count_paths('resources/test_1'))
+print('Solution for second test task 01: ', count_paths('resources/test_2'))
+print('Solution for validation task 01: ', count_paths('resources/val'))
