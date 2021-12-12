@@ -21,54 +21,81 @@ test_input_2 = [[num.strip().split(" ") for num in line.split("|")]
 val_input = [[num.strip().split(' ') for num in line.split('|')]
              for line in open('resources/val_input', 'r').readlines()]
 
+print(test_input[0])
+
 
 def find_digit_in_segments(display) -> int:
     """
     Computes how many instances of a specific digit are located in the given input.
 
-    :param display:
-    :return:
+    :param display: The input of a seven segment split at '|' as delimiter.
+    :return: Sum of the counted digits.
     """
     num_digits = 0
+    # Check each row of the segment display
     for digit in display:
+        # Check each single segment
         for segment in digit[1]:
+            # Increment the output if the number read is either of [1, 4, 7, 8]
             if len(segment) == 2 or len(segment) == 3 or len(segment) == 4 or len(segment) == 7:
                 num_digits += 1
     return num_digits
 
 
 def compute_sum_output(display) -> int:
+    """
+    Computes the digit representation for the output of every line and returns the sum of these outputs.
+    Needs to determine the character->digit mapping new for each single line.
 
+    :param display: Line wise input of the seven segment. Split at '|' as delimiter.
+    :return: Sum of the output numbers per line.
+    """
     sum_output = 0
+
+    # Filter the obvious numbers from the display input
     for digit in display:
-        current_digit = ''
-        len5_segments, len6_segments = [], []
-        for segment in digit[1]:
+        known = {}
+        for segment in digit[0]:
             if len(segment) == 2:
-                current_digit += '1'
-            elif len(segment) == 3:
-                current_digit += '7'
+                known[1] = set(segment)
             elif len(segment) == 4:
-                current_digit += '4'
-            elif len(segment) == 5:
-                len5_segments.append(segment)
-            elif len(segment) == 6:
-                len6_segments.append(segment)
-            elif len(segment) == 7:
-                current_digit += '8'
+                known[4] = set(segment)
 
-    return 0
+        # Filter the numbers from the output
+        nums = ''
+        for _segment in digit[1]:
+            if len(_segment) == 2:
+                nums += '1'
+            elif len(_segment) == 3:
+                nums += '7'
+            elif len(_segment) == 4:
+                nums += '4'
+            elif len(_segment) == 5:
+                if set(_segment).issuperset(known[1]):
+                    nums += '3'
+                elif len(set(_segment) & known[4]) == 3:
+                    nums += '5'
+                else:
+                    nums += '2'
+            elif len(_segment) == 6:
+                if not set(_segment).issuperset(known[1]):
+                    nums += '6'
+                elif set(_segment).issuperset(known[4]):
+                    nums += '9'
+                else:
+                    nums += '0'
+            elif len(_segment) == 7:
+                nums += '8'
 
-def determine_len5_segments():
+        sum_output += int(nums)
 
-
-def determine_len6_segments():
+    return sum_output
 
 
 print(f'Solution test task 01: {find_digit_in_segments(test_input)}')
 print(f'Solution test 02 task 01: {find_digit_in_segments(test_input_2)}')
 print(f'Solution validation task 01: {find_digit_in_segments(val_input)}')
-
+print('----------------------------')
 print(f'Solution test task 02: {compute_sum_output(test_input)}')
-#print(f'Solution test 2 task 02: {compute_sum_output(test_input_2)}')
-#print(f'Solution validation task 02: {compute_sum_output(val_input)}')
+print(f'Solution test 2 task 02: {compute_sum_output(test_input_2)}')
+print(f'Solution validation task 02: {compute_sum_output(val_input)}')
