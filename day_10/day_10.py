@@ -88,8 +88,8 @@ def compute_incomplete_lines(data) -> int:
     return sorted(total_points)[len(total_points)//2]
 
 
-print(compute_error_score(test_data))
-print(compute_error_score(val_data))
+print('Task 01 test output: ', compute_error_score(test_data))
+print('Task 01 val output: ', compute_error_score(val_data))
 
-print(compute_incomplete_lines(test_data))
-print(compute_incomplete_lines(val_data))
+print('Task 02 test output: ', compute_incomplete_lines(test_data))
+print('Task 02 val output: ', compute_incomplete_lines(val_data))

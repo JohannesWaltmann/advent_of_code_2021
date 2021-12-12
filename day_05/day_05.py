@@ -41,6 +41,7 @@ def find_overlaps(coordinates, grid):
 
     return np.sum(np.where(grid > 1, 1, 0))
 
+
 # TODO: Check why val output has offset of 5
 # TODO: Work on task 2
 print(find_overlaps(test_coordinates, vent_grid))
