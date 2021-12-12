@@ -29,10 +29,13 @@ parenthesis_map = {
 
 def compute_error_score(data) -> int:
     """
-    TODO: Add commentary
+    Takes a multi line string of different parenthesis and computes a sum dependant
+    of the number of corrupt lines in the string.
+    A corrupt line is a line where an opened parenthesis is closed using the wrong type of parenthesis.
+    Each kind of parenthesis has another value which is added to the error score.
 
-    :param data:
-    :return:
+    :param data: String with a random ordering of opened and closed parenthesis.
+    :return: The error score.
     """
     total_points = 0
     opened_parenthesis_ordered = list()
@@ -50,10 +53,15 @@ def compute_error_score(data) -> int:
 
 def compute_incomplete_lines(data) -> int:
     """
-    TODO: Add commentary
+    Takes a multi line input and computes the sum for the missing closing parenthesis
+    if the current line is not a corrupted line.
+    Each kind of parenthesis has a different value.
 
-    :param data:
-    :return:
+    For the sum the current number of points is multiplied by five
+    before adding the next parenthesis value.
+
+    :param data: String with a random ordering of opened and closed parenthesis.
+    :return: The middle score out of all computed sums per line.
     """
     closing_parenthesis_ordered = list()
     total_points = []
