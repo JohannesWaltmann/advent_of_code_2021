@@ -41,7 +41,15 @@ def count_paths_small_once(source_path: str) -> int:
 
 
 def count_paths_one_small_double(source_path: str) -> int:
+    """
+    Counts the different possible paths through a cave system.
+    Each valid path has to contain a start and an end point.
+    A path may contain multiple entries of the came capital cave and up to two instances
+    per minor cave.
 
+    :param source_path: File path to the routing info of a cave system.
+    :returns: The sum of counted valid paths. Each path increments the sum by 1.
+    """
     # Create dictionary and fill with cave connections
     connections = defaultdict(list)
     for line in open(source_path, 'r'):
@@ -51,15 +59,22 @@ def count_paths_one_small_double(source_path: str) -> int:
 
     valid_paths = 0
     _next = [['start']]
-
+    # As long as paths are available
     while _next:
+        # Take the next path as current
         current_path = _next.pop(0)
 
+        # For each cave in the current path
         for coming in connections[current_path[-1]]:
+            # Mark the cave as multi occurance of minor cave
+            revisit = coming.islower() and coming in current_path
+
             if coming == 'end':
                 valid_paths += 1
-            elif not coming.islower() or current_path.count(coming) < 2:
-                _next.append(current_path + [coming])
+            # If the path is not the starting cave and it is not a multi revisit of a minor cave
+            elif coming != 'start' and not (current_path[0] == '*' and revisit):
+                # Add it to the following caves of the current path
+                _next.append((['*'] if revisit else []) + current_path + [coming])
 
     return valid_paths
 
